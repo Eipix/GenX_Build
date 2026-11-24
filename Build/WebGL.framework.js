@@ -8196,6 +8196,14 @@ function dbg(text) {
           window.getAddToHomeScreenReward()
       }
 
+  function _PlaygamaBridgeGetDeviceType() {
+          var deviceType = window.getDeviceType()
+          var bufferSize = lengthBytesUTF8(deviceType) + 1
+          var buffer = _malloc(bufferSize)
+          stringToUTF8(deviceType, buffer, bufferSize)
+          return buffer
+      }
+
   function _PlaygamaBridgeGetInterstitialState() {
           var interstitialState = window.getInterstitialState()
           var bufferSize = lengthBytesUTF8(interstitialState) + 1
@@ -8254,6 +8262,14 @@ function dbg(text) {
 
   function _PlaygamaBridgeGetPostReward() {
           window.getPostReward()
+      }
+
+  function _PlaygamaBridgeGetSafeArea() {
+          var safeArea = window.getSafeArea()
+          var bufferSize = lengthBytesUTF8(safeArea) + 1
+          var buffer = _malloc(bufferSize)
+          stringToUTF8(safeArea, buffer, bufferSize)
+          return buffer
       }
 
   function _PlaygamaBridgeGetServerTime() {
@@ -17975,6 +17991,7 @@ var wasmImports = {
   "PlaygamaBridgeDeleteStorageData": _PlaygamaBridgeDeleteStorageData,
   "PlaygamaBridgeGetAddToFavoritesReward": _PlaygamaBridgeGetAddToFavoritesReward,
   "PlaygamaBridgeGetAddToHomeScreenReward": _PlaygamaBridgeGetAddToHomeScreenReward,
+  "PlaygamaBridgeGetDeviceType": _PlaygamaBridgeGetDeviceType,
   "PlaygamaBridgeGetInterstitialState": _PlaygamaBridgeGetInterstitialState,
   "PlaygamaBridgeGetPlatformData": _PlaygamaBridgeGetPlatformData,
   "PlaygamaBridgeGetPlatformId": _PlaygamaBridgeGetPlatformId,
@@ -17983,6 +18000,7 @@ var wasmImports = {
   "PlaygamaBridgeGetPlatformPayload": _PlaygamaBridgeGetPlatformPayload,
   "PlaygamaBridgeGetPlatformTld": _PlaygamaBridgeGetPlatformTld,
   "PlaygamaBridgeGetPostReward": _PlaygamaBridgeGetPostReward,
+  "PlaygamaBridgeGetSafeArea": _PlaygamaBridgeGetSafeArea,
   "PlaygamaBridgeGetServerTime": _PlaygamaBridgeGetServerTime,
   "PlaygamaBridgeGetStorageData": _PlaygamaBridgeGetStorageData,
   "PlaygamaBridgeHideAdvancedBanners": _PlaygamaBridgeHideAdvancedBanners,
