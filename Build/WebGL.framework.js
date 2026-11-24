@@ -1707,6 +1707,42 @@ function dbg(text) {
       }
     }
 
+  function _CopyToClipboardWebGL(str) {
+          var text = UTF8ToString(str);
+  
+          function fallbackCopy(value) {
+              var textArea = document.createElement("textarea");
+              textArea.value = value;
+              textArea.contentEditable = true;
+              textArea.readOnly = false;
+              textArea.style.position = "fixed";
+              textArea.style.left = "-999999px";
+              textArea.style.top = "-999999px";
+              document.body.appendChild(textArea);
+  
+              var range = document.createRange();
+              range.selectNodeContents(textArea);
+              var selection = window.getSelection();
+              selection.removeAllRanges();
+              selection.addRange(range);
+              textArea.setSelectionRange(0, value.length);
+  
+              try {
+                  document.execCommand("copy");
+              } catch (e) {}
+  
+              document.body.removeChild(textArea);
+          }
+  
+          if (navigator.clipboard && window.isSecureContext) {
+              navigator.clipboard.writeText(text).catch(function () {
+                  fallbackCopy(text);
+              });
+          } else {
+              fallbackCopy(text);
+          }
+      }
+
   function _GetJSLoadTimeInfo(loadTimePtr) {
     loadTimePtr = (loadTimePtr >> 2);
     HEAPU32[loadTimePtr] = Module.pageStartupTime || 0;
@@ -8160,14 +8196,6 @@ function dbg(text) {
           window.getAddToHomeScreenReward()
       }
 
-  function _PlaygamaBridgeGetDeviceType() {
-          var deviceType = window.getDeviceType()
-          var bufferSize = lengthBytesUTF8(deviceType) + 1
-          var buffer = _malloc(bufferSize)
-          stringToUTF8(deviceType, buffer, bufferSize)
-          return buffer
-      }
-
   function _PlaygamaBridgeGetInterstitialState() {
           var interstitialState = window.getInterstitialState()
           var bufferSize = lengthBytesUTF8(interstitialState) + 1
@@ -8226,14 +8254,6 @@ function dbg(text) {
 
   function _PlaygamaBridgeGetPostReward() {
           window.getPostReward()
-      }
-
-  function _PlaygamaBridgeGetSafeArea() {
-          var safeArea = window.getSafeArea()
-          var bufferSize = lengthBytesUTF8(safeArea) + 1
-          var buffer = _malloc(bufferSize)
-          stringToUTF8(safeArea, buffer, bufferSize)
-          return buffer
       }
 
   function _PlaygamaBridgeGetServerTime() {
@@ -17831,6 +17851,7 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var wasmImports = {
+  "CopyToClipboardWebGL": _CopyToClipboardWebGL,
   "GetJSLoadTimeInfo": _GetJSLoadTimeInfo,
   "GetJSMemoryInfo": _GetJSMemoryInfo,
   "JS_Accelerometer_IsRunning": _JS_Accelerometer_IsRunning,
@@ -17954,7 +17975,6 @@ var wasmImports = {
   "PlaygamaBridgeDeleteStorageData": _PlaygamaBridgeDeleteStorageData,
   "PlaygamaBridgeGetAddToFavoritesReward": _PlaygamaBridgeGetAddToFavoritesReward,
   "PlaygamaBridgeGetAddToHomeScreenReward": _PlaygamaBridgeGetAddToHomeScreenReward,
-  "PlaygamaBridgeGetDeviceType": _PlaygamaBridgeGetDeviceType,
   "PlaygamaBridgeGetInterstitialState": _PlaygamaBridgeGetInterstitialState,
   "PlaygamaBridgeGetPlatformData": _PlaygamaBridgeGetPlatformData,
   "PlaygamaBridgeGetPlatformId": _PlaygamaBridgeGetPlatformId,
@@ -17963,7 +17983,6 @@ var wasmImports = {
   "PlaygamaBridgeGetPlatformPayload": _PlaygamaBridgeGetPlatformPayload,
   "PlaygamaBridgeGetPlatformTld": _PlaygamaBridgeGetPlatformTld,
   "PlaygamaBridgeGetPostReward": _PlaygamaBridgeGetPostReward,
-  "PlaygamaBridgeGetSafeArea": _PlaygamaBridgeGetSafeArea,
   "PlaygamaBridgeGetServerTime": _PlaygamaBridgeGetServerTime,
   "PlaygamaBridgeGetStorageData": _PlaygamaBridgeGetStorageData,
   "PlaygamaBridgeHideAdvancedBanners": _PlaygamaBridgeHideAdvancedBanners,
