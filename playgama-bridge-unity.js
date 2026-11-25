@@ -125,7 +125,7 @@ document.head.appendChild(bridgeScript)
 function initializeBridge() {
     clearTimeout(bridgeTimeout)
     bridge.engine = 'unity'
-    bridge.gameVersion = '0.0.501'
+    bridge.gameVersion = '0.0.504'
     bridge
         .initialize()
         .then(() => {
@@ -149,7 +149,7 @@ function initializeBridge() {
                         streamingAssetsUrl: 'StreamingAssets',
                         companyName: 'SCQ_Games',
                         productName: 'GenX',
-                        productVersion: '0.0.501',
+                        productVersion: '0.0.504',
                         // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
                         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
                     },
